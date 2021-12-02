@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title}) : super(key: key);
+  const HomePage({Key? key, required this.title, required this.day, required this.month}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -14,6 +14,8 @@ class HomePage extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  final String month;
+  final String day;
 
   @override
   State<HomePage> createState() => _HomePage();
@@ -37,27 +39,53 @@ class _HomePage extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-      ),
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-            'You have pushed the button this many times:',
+        leading: SizedBox(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(widget.day),
+              Text(widget.month, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),)
+            ],
           ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-      onPressed: _incrementCounter,
-      tooltip: 'Increment',
-      child: const Icon(Icons.add),
-    ),
+      backgroundColor: Colors.white,
+      body: _buildBody() ,
+      floatingActionButton: _buildFloatButton(),
     );
   }
 
+  Widget _buildBody() {
+    return Center(
+      child: RefreshIndicator(
+        child: Column(
+          children: [],
+        ),
+        onRefresh: () async {
+          await Future.delayed(const Duration(milliseconds: 2000), () {
+              //调用viewmodel获取数据
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildFloatButton() {
+    return FloatingActionButton(
+      onPressed: _incrementCounter,
+      tooltip: 'Increment',
+      child: const Icon(Icons.add),
+    );
+  }
+
+  Widget _emptyPage() {
+    return Center(
+      child: ElevatedButton(
+        child: Text('点击重试', style: Theme.of(context).textTheme.headline4,),
+        onPressed: () {
+
+        },
+      ),
+    );
+  }
 }

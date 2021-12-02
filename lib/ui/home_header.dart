@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatefulWidget {
   const CustomAppBar({Key? key, required this.title, required this.month, required this.day}) : super(key: key);
@@ -12,17 +13,20 @@ class CustomAppBar extends StatefulWidget {
 class _CustomAppBar extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
-      return Row(
-        children: [
-          Column(
-            children: [
-              Text(widget.day),
-              Text(widget.month)
-            ],
-          ),
-          BorderSide()
-        ],
-      )
+      return SizedBox(
+        height: 60,
+        width: MediaQuery.of(context).size.width,
+        child: Row(
+          children: [
+            Column(
+              children: [
+                Text(widget.day),
+                Text(widget.month)
+              ],
+            ),
+          ],
+        ),
+      );
   }
 
 }
