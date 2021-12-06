@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_study/ui/home/home_view_model.dart';
+import 'package:rxdart/rxdart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title, required this.day, required this.month}) : super(key: key);
@@ -23,7 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePage extends State<HomePage> {
   int _counter = 0;
-
+  final _viewModel = HomeViewModel();
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -33,6 +35,15 @@ class _HomePage extends State<HomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+    _viewModel.fetchTodayNews();
+  }
+  @override
+  void initState() {
+    _viewModel.todayNewsContent.listen((model) {
+      print("teststrafasdfasdfadfadfa");
+      print(model.stories.first.url);
+    });
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_study/ui/home/home_page.dart';
+import 'package:flutter_study/ui/home/home_view_model.dart';
 
 void main() {
   runApp(const MyApp());
