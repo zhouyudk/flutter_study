@@ -4,7 +4,9 @@ import 'package:flutter_study/ui/home/home_view_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title, required this.day, required this.month}) : super(key: key);
+  const HomePage(
+      {Key? key, required this.title, required this.day, required this.month})
+      : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -26,6 +28,7 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   int _counter = 0;
   final _viewModel = HomeViewModel();
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -35,8 +38,9 @@ class _HomePage extends State<HomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
-    _viewModel.fetchTodayNews();
+    _viewModel.onRefresh();
   }
+
   @override
   void initState() {
     _viewModel.todayNewsContent.listen((model) {
@@ -45,6 +49,7 @@ class _HomePage extends State<HomePage> {
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,13 +60,19 @@ class _HomePage extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(widget.day),
-              Text(widget.month, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),)
+              Text(
+                widget.month,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold),
+              )
             ],
           ),
         ),
       ),
       backgroundColor: Colors.white,
-      body: _buildBody() ,
+      body: _buildBody(),
       floatingActionButton: _buildFloatButton(),
     );
   }
@@ -74,7 +85,7 @@ class _HomePage extends State<HomePage> {
         ),
         onRefresh: () async {
           await Future.delayed(const Duration(milliseconds: 2000), () {
-              //调用viewmodel获取数据
+            //调用viewmodel获取数据
           });
         },
       ),
@@ -92,10 +103,11 @@ class _HomePage extends State<HomePage> {
   Widget _emptyPage() {
     return Center(
       child: ElevatedButton(
-        child: Text('点击重试', style: Theme.of(context).textTheme.headline4,),
-        onPressed: () {
-
-        },
+        child: Text(
+          '点击重试',
+          style: Theme.of(context).textTheme.headline4,
+        ),
+        onPressed: () {},
       ),
     );
   }

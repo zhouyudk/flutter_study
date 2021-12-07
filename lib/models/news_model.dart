@@ -11,14 +11,14 @@ part 'news_model.g.dart';
 * */
 @JsonSerializable()
 class NewsModel {
-  List<String> images;
-  String title;
-  String hint;
-  String url;
-  int id;
-  int type;
+  final List<String> images;
+  final String title;
+  final String hint;
+  final String url;
+  final int id;
+  final int type;
 
-  NewsModel(this.images, this.title, this.hint, this.url, this.id, this.type);
+  const NewsModel(this.images, this.title, this.hint, this.url, this.id, this.type);
 
   factory NewsModel.fromJson(Map<String, dynamic> json) =>
       _$NewsModelFromJson(json);
@@ -28,14 +28,14 @@ class NewsModel {
 
 @JsonSerializable()
 class TopNewsModel {
-  String image;
-  String title;
-  String hint;
-  String url;
-  int id;
-  int type;
+  final String image;
+  final String title;
+  final String hint;
+  final String url;
+  final int id;
+  final int type;
 
-  TopNewsModel(this.image, this.title, this.hint, this.url, this.id, this.type);
+  const TopNewsModel(this.image, this.title, this.hint, this.url, this.id, this.type);
 
   factory TopNewsModel.fromJson(Map<String, dynamic> json) =>
       _$TopNewsModelFromJson(json);
@@ -45,12 +45,12 @@ class TopNewsModel {
 
 @JsonSerializable()
 class TodayNewsModel {
-  List<NewsModel> stories;
+  final List<NewsModel> stories;
 
   @JsonKey(name: "top_stories")
-  List<TopNewsModel> topStories;
+  final List<TopNewsModel> topStories;
 
-  TodayNewsModel(this.stories, this.topStories);
+  const TodayNewsModel(this.stories, this.topStories);
 
   factory TodayNewsModel.fromJson(Map<String, dynamic> json) =>
       _$TodayNewsModelFromJson(json);
@@ -60,10 +60,10 @@ class TodayNewsModel {
 
 @JsonSerializable()
 class DailyNewsModel {
-  String date;
-  List<NewsModel> stories;
+  final String date;
+  final List<NewsModel> stories;
 
-  DailyNewsModel(this.date, this.stories);
+  const DailyNewsModel(this.date, this.stories);
 
   factory DailyNewsModel.fromJson(Map<String, dynamic> json) =>
       _$DailyNewsModelFromJson(json);
