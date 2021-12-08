@@ -16,14 +16,20 @@ class HomeCarouselTile extends StatelessWidget {
         Positioned(
             left: 30,
             bottom: 20,
+            right: 30,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(topNewsModel.title,
-                    style: const TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white)),
+                Flexible(
+                  child: Text(topNewsModel.title,
+                      softWrap: true,
+                      style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white)),
+                ),
+                const SizedBox(height: 5),
                 Text(topNewsModel.hint,
                     textAlign: TextAlign.start,
                     style: const TextStyle(
