@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_study/models/news_model.dart';
+import 'package:flutter_study/ui/home/home_carousel.dart';
 import 'package:flutter_study/ui/home/home_view_model.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -81,7 +83,14 @@ class _HomePage extends State<HomePage> {
     return Center(
       child: RefreshIndicator(
         child: Column(
-          children: [],
+          children: [
+            StreamBuilder<TodayNewsModel>(
+                stream: _viewModel.todayNewsContent,
+                builder: (BuildContext context,
+                    AsyncSnapshot<TodayNewsModel> snapshot) {
+                  return HomeCarousel(topNews: snapshot.data?.topStories ?? []);
+                })
+          ],
         ),
         onRefresh: () async {
           await Future.delayed(const Duration(milliseconds: 2000), () {

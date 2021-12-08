@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_study/common/global.dart';
+import 'package:flutter_study/utils/log_util.dart';
 
 enum Api {
   todayNews, // = "/news/latest";
@@ -32,25 +36,27 @@ class ApiManager {
             errorInterceptor(dioError, handler)));
   }
 
-  void requestInterceptor(
+  requestInterceptor(
       RequestOptions options, RequestInterceptorHandler handler) async {
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // var token = prefs.get("token");
 
     //修改header
     // options.headers.addAll({"Token": "$token${DateTime.now()}"});
-    debugPrint(options.toString());
+    LogUtil.v(options.toString());
     handler.next(options);
   }
 
-  void responseInterceptor(
+  responseInterceptor(
       Response response, ResponseInterceptorHandler handler) {
-    debugPrint(response.toString());
+    // LogUtil.d(response.toString());
+    //logger 库不能打印超长string
+    log(response.toString(), time: DateTime.now(), level: 1);
     handler.next(response);
   }
 
-  void errorInterceptor(DioError dioError, ErrorInterceptorHandler handler) {
-    debugPrint(dioError.toString());
+  errorInterceptor(DioError dioError, ErrorInterceptorHandler handler) {
+    LogUtil.e(dioError.toString());
     handler.next(dioError);
   }
 

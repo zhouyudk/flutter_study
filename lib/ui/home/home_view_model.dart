@@ -5,12 +5,12 @@ import 'package:rxdart/rxdart.dart';
 class HomeViewModel {
   HomeViewModel();
 
-  final todayNewsRepository = TodayNewsRepository();
+  final _todayNewsRepository = TodayNewsRepository();
 
   Stream<TodayNewsModel> get todayNewsContent =>
-      todayNewsRepository.todayNewsSubject.stream;
+      _todayNewsRepository.todayNewsSubject.stream;
 
   void onRefresh() {
-    todayNewsRepository.fetchTodayNews();
+    _todayNewsRepository.fetchTodayNews();
   }
 }
