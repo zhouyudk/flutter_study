@@ -1,16 +1,52 @@
-
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_study/models/news_model.dart';
 
-class HomeReportTile extends StatefulWidget {
-  const HomeReportTile({Key? key}) : super(key: key);
+class HomeReportTile extends StatelessWidget {
+  final NewsModel newsModel;
 
-  @override
-  State<HomeReportTile> createState() => _HomeReportTile();
-}
+  const HomeReportTile({Key? key, required this.newsModel}) : super(key: key);
 
-class _HomeReportTile extends State<HomeReportTile> {
   @override
   Widget build(BuildContext context) {
-    return const Text("test");
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: SizedBox(
+        height: 100,
+        width: double.infinity,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  newsModel.title,
+                  style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  newsModel.hint,
+                  style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.black45),
+                )
+              ],
+            )),
+            const SizedBox(width: 15),
+            AspectRatio(
+                aspectRatio: 1,
+                child: Image(image: NetworkImage(newsModel.images.first)))
+          ],
+        ),
+      ),
+    );
   }
 }
