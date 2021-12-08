@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_study/common/global.dart';
+import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/utils/log_util.dart';
 
 enum Api {
@@ -50,7 +51,7 @@ class ApiManager {
   responseInterceptor(
       Response response, ResponseInterceptorHandler handler) {
     // LogUtil.d(response.toString());
-    //logger 库不能打印超长string
+    //logger库不能打印超长string
     log(response.toString(), time: DateTime.now(), level: 1);
     handler.next(response);
   }
@@ -60,8 +61,12 @@ class ApiManager {
     handler.next(dioError);
   }
 
-  Future get(Api api, {String para = ""}) async {
-    return _dio.get(_apiPath(api) + para);
+  Stream get(Api api, {String para = ""}) {
+    try {
+      return Stream.fromFuture(_dio.get(_apiPath(api) + para));
+    } catch(e) {
+      return Stream.error(e);
+    }
   }
 
   String _apiPath(Api api) {

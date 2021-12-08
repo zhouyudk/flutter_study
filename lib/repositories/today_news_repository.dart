@@ -1,12 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/managers/api_manager.dart';
 import 'package:flutter_study/models/news_model.dart';
 import 'package:rxdart/rxdart.dart';
 
-
 class TodayNewsRepository {
-
   static final TodayNewsRepository _todayNewsRepository =
       TodayNewsRepository._internal();
 
@@ -16,14 +16,16 @@ class TodayNewsRepository {
 
   final _apiManager = ApiManager();
 
-  final todayNewsSubject = BehaviorSubject<TodayNewsModel>();
-  final newsSubject = BehaviorSubject<NewsModel>();
-  final newsDetailSubject = BehaviorSubject<NewsModel>();
+  final todayNewsSubject = StreamController<Resource<TodayNewsModel>>();
+  final newsSubject = StreamController<NewsModel>();
+  final newsDetailSubject = StreamController<NewsModel>();
 
-  fetchTodayNews() async {
-    final todayNewsData = await _apiManager.get(Api.todayNews);
-    todayNewsSubject
-        .add(TodayNewsModel.fromJson(jsonDecode(todayNewsData.toString())));
+  fetchTodayNews() {
+    return _apiManager
+        .get(Api.todayNews)
+        .map((data) => TodayNewsModel.fromJson(jsonDecode(data.toString())))
+        .listen((model) => todayNewsSubject.add(Resource.success(data: model)),
+            onError: (error) => todayNewsSubject.add(Resource.error(e: error)));
   }
 
   fetchNewsBeforeDate(String date) async {
@@ -33,6 +35,6 @@ class TodayNewsRepository {
 
   fetchNewsDetail(String newsId) async {
     final newsData = await _apiManager.get(Api.newsDetail, para: newsId);
-    newsSubject.add(NewsModel.fromJson(jsonDecode(newsData.toString())));
+    newsDetailSubject.add(NewsModel.fromJson(jsonDecode(newsData.toString())));
   }
 }

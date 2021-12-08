@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/models/news_model.dart';
 import 'package:flutter_study/ui/home/home_carousel.dart';
 import 'package:flutter_study/ui/home/home_report_tile.dart';
@@ -31,7 +32,7 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   int _counter = 0;
   final _viewModel = HomeViewModel();
-  List<NewsModel> newsModelList = [];
+  TodayNewsModel todayNews = TodayNewsModel([], []);
 
   void _incrementCounter() {
     setState(() {
@@ -47,10 +48,19 @@ class _HomePage extends State<HomePage> {
 
   @override
   void initState() {
-    _viewModel.todayNewsContent.listen((model) {
-      setState(() {
-        newsModelList = model.stories;
-      });
+    _viewModel.todayNewsContent.listen((result) {
+      switch (result.status) {
+        case Status.success:
+          setState(() {
+            todayNews = result.data!;
+          });
+          break;
+        case Status.error:
+          // show some error
+          break;
+        default:
+          break;
+      }
     });
     super.initState();
   }
@@ -87,13 +97,8 @@ class _HomePage extends State<HomePage> {
       child: RefreshIndicator(
         child: Column(
           children: [
-            StreamBuilder<TodayNewsModel>(
-                stream: _viewModel.todayNewsContent,
-                builder: (BuildContext context,
-                    AsyncSnapshot<TodayNewsModel> snapshot) {
-                  return HomeCarousel(topNews: snapshot.data?.topStories ?? []);
-                }),
-            ...newsModelList.map((newsModel) => HomeReportTile(newsModel: newsModel))
+            HomeCarousel(topNews: todayNews.topStories),
+            ...todayNews.stories.map((newsModel) => HomeReportTile(newsModel: newsModel))
           ],
         ),
         onRefresh: () async {
