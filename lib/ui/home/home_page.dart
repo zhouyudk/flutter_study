@@ -5,6 +5,7 @@ import 'package:flutter_study/models/news_model.dart';
 import 'package:flutter_study/ui/home/home_carousel.dart';
 import 'package:flutter_study/ui/home/home_report_tile.dart';
 import 'package:flutter_study/ui/home/home_view_model.dart';
+import 'package:flutter_study/utils/log_util.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomePage extends StatefulWidget {
@@ -26,7 +27,9 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   int _counter = 0;
   final _viewModel = HomeViewModel();
-  TodayNewsModel todayNews = TodayNewsModel([], []);
+  TodayNewsModel? todayNews;
+
+  final ScrollController _scrollController = ScrollController();
 
   void _incrementCounter() {
     setState(() {
@@ -56,8 +59,23 @@ class _HomePage extends State<HomePage> {
           break;
       }
     });
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        LogUtil.v('滑动到了最底部');
+        // _getMore();
+      }
+    });
+
     _viewModel.onRefresh();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -82,26 +100,28 @@ class _HomePage extends State<HomePage> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: _buildBody(),
+      body: todayNews == null ? _emptyPage() : _buildBody(),
       floatingActionButton: _buildFloatButton(),
     );
   }
 
   Widget _buildBody() {
-    return SingleChildScrollView(
-      child: RefreshIndicator(
+    //以scrollView 作为RefreshIndicator的子组件 才能触发刷新
+    return RefreshIndicator(
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        //在Android上scrollView也能像iOS一样将offset滑动为负数
+        physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics()),
         child: Column(
           children: [
-            HomeCarousel(topNews: todayNews.topStories),
-            ...todayNews.stories.map((newsModel) => HomeReportTile(newsModel: newsModel))
+            HomeCarousel(topNews: todayNews!.topStories),
+            ...todayNews!.stories
+                .map((newsModel) => HomeReportTile(newsModel: newsModel))
           ],
         ),
-        onRefresh: () async {
-          await Future.delayed(const Duration(milliseconds: 2000), () {
-            //调用viewmodel获取数据
-          });
-        },
       ),
+      onRefresh: _onRefresh,
     );
   }
 
@@ -120,8 +140,17 @@ class _HomePage extends State<HomePage> {
           '点击重试',
           style: Theme.of(context).textTheme.headline4,
         ),
-        onPressed: () {},
+        onPressed: () {
+          _viewModel.onRefresh();
+        },
       ),
     );
+  }
+
+  Future _onRefresh() async {
+    await Future.delayed(const Duration(milliseconds: 2000), () {
+      LogUtil.v('home page refresh');
+      _viewModel.onRefresh();
+    });
   }
 }

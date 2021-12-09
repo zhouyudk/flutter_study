@@ -12,7 +12,19 @@ class HomeCarouselTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image(image: NetworkImage(topNewsModel.image), fit: BoxFit.fill),
+        Image(
+          image: NetworkImage(topNewsModel.image),
+          fit: BoxFit.fill,
+          loadingBuilder: (BuildContext context, Widget child,
+                  ImageChunkEvent? loadingProgress) =>
+              loadingProgress == null
+                  ? child
+                  : const SizedBox(
+                      height: double.infinity,
+                      width: double.infinity,
+                      child: ColoredBox(color: Colors.grey),
+                    ),
+        ),
         Positioned(
             left: 30,
             bottom: 20,
