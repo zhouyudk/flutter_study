@@ -8,9 +8,7 @@ import 'package:flutter_study/ui/home/home_view_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage(
-      {Key? key, required this.title, required this.day, required this.month})
-      : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -20,10 +18,6 @@ class HomePage extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
-
-  final String title;
-  final String month;
-  final String day;
 
   @override
   State<HomePage> createState() => _HomePage();
@@ -62,6 +56,7 @@ class _HomePage extends State<HomePage> {
           break;
       }
     });
+    _viewModel.onRefresh();
     super.initState();
   }
 
@@ -69,15 +64,15 @@ class _HomePage extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text("Flutter Demo"),
         leading: SizedBox(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(widget.day),
+            children: const [
+              Text("10"),
               Text(
-                widget.month,
-                style: const TextStyle(
+                "12",
+                style: TextStyle(
                     color: Colors.white,
                     fontSize: 16,
                     fontWeight: FontWeight.bold),
