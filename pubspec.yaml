@@ -43,8 +43,9 @@ dependencies:
   json_annotation: ^4.4.0
   #第三方 控件封装
   flukit: ^2.0.0
-  #便捷日志答应
+  #便捷日志打印
   logger: ^1.1.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

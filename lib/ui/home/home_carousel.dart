@@ -38,7 +38,7 @@ class _HomeCarousel extends State<HomeCarousel> with WidgetsBindingObserver {
       } else if (_pageController.page! == 0) {
         _pageController.jumpToPage(_dataList.length-2);
       }
-      LogUtil.v("currentPage: ${_pageController.page}");
+      // LogUtil.v("currentPage: ${_pageController.page}");
     });
 
     _startTimer();
@@ -68,7 +68,7 @@ class _HomeCarousel extends State<HomeCarousel> with WidgetsBindingObserver {
   }
 
   _onPageChanged(int page) {
-    LogUtil.v("_onPageChanged $page");
+    // LogUtil.v("_onPageChanged $page");
   }
 
 

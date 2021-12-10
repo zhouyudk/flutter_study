@@ -10,9 +10,28 @@ class HomeViewModel {
 
   final _todayNewsRepository = TodayNewsRepository();
 
-  Stream<Resource<TodayNewsModel>> get todayNewsContent => _todayNewsRepository.todayNewsSubject.stream;
+  Stream<Resource<HomeNewsContent>> get todayNewsContent =>
+      _todayNewsRepository.homeNewsContentSubject.stream;
 
   void onRefresh() {
     _todayNewsRepository.fetchTodayNews();
+  }
+
+  loadMore() {
+    _todayNewsRepository.fetchNewsBeforeDate();
+  }
+}
+
+class HomeNewsContent {
+  final TodayNewsModel? todayNews;
+  final List<DailyNewsModel>? dailyNews;
+
+  const HomeNewsContent({this.todayNews, this.dailyNews});
+
+  HomeNewsContent copy(
+      {TodayNewsModel? todayNews, List<DailyNewsModel>? dailyNews}) {
+    return HomeNewsContent(
+        todayNews: todayNews ?? this.todayNews,
+        dailyNews: dailyNews ?? this.dailyNews);
   }
 }

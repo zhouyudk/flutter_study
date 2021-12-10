@@ -44,7 +44,7 @@ class ApiManager {
 
     //修改header
     // options.headers.addAll({"Token": "$token${DateTime.now()}"});
-    LogUtil.v(options.toString());
+    LogUtil.v(options.path);
     handler.next(options);
   }
 

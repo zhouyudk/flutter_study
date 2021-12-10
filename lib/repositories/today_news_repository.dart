@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/managers/api_manager.dart';
 import 'package:flutter_study/models/news_model.dart';
+import 'package:flutter_study/ui/home/home_view_model.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TodayNewsRepository {
@@ -17,24 +19,50 @@ class TodayNewsRepository {
   final _apiManager = ApiManager();
 
   final todayNewsSubject = StreamController<Resource<TodayNewsModel>>();
-  final newsSubject = StreamController<NewsModel>();
+  final homeNewsContentSubject = BehaviorSubject<Resource<HomeNewsContent>>();
+  final dailyNewsSubject = StreamController<List<DailyNewsModel>>();
   final newsDetailSubject = StreamController<NewsModel>();
 
+  var _loadedDays = 0;
+  var _isLoading = false;
+
   fetchTodayNews() {
-    return _apiManager
+    _loadedDays = 0;
+    _apiManager
         .get(Api.todayNews)
         .map((data) => TodayNewsModel.fromJson(jsonDecode(data.toString())))
-        .listen((model) => todayNewsSubject.add(Resource.success(data: model)),
-            onError: (error) => todayNewsSubject.add(Resource.error(e: error)));
+        .listen((model) => homeNewsContentSubject.add(Resource.success(data: HomeNewsContent(todayNews: model))),
+            onError: (error) => homeNewsContentSubject.add(Resource.error(e: error)));
   }
 
-  fetchNewsBeforeDate(String date) async {
-    final newsData = await _apiManager.get(Api.newsBeforeDate, para: date);
-    newsSubject.add(NewsModel.fromJson(jsonDecode(newsData.toString())));
+  fetchNewsBeforeDate() {
+    if (_isLoading) {
+      return;
+    }
+    _isLoading = true;
+    _apiManager
+        .get(Api.newsBeforeDate, para: queryDate())
+        .map((data) => DailyNewsModel.fromJson(jsonDecode(data.toString())))
+        .listen((model) {
+      final currentData = homeNewsContentSubject.value.data;
+      final newData = currentData?.copy(dailyNews: (currentData.dailyNews ?? []) + [model]);
+      homeNewsContentSubject.add(Resource.success(data: newData));
+      _isLoading = false;
+      _loadedDays += 1;
+    }, onError: (error) {
+      // todayNewsSubject.add(Resource.error(e: error));
+      _isLoading = false;
+    });
   }
 
   fetchNewsDetail(String newsId) async {
     final newsData = await _apiManager.get(Api.newsDetail, para: newsId);
     newsDetailSubject.add(NewsModel.fromJson(jsonDecode(newsData.toString())));
+  }
+
+  String queryDate() {
+    final date = DateTime.now().subtract(Duration(days: _loadedDays));
+    final dateFormat = DateFormat("yyyyMMdd");
+    return dateFormat.format(date);
   }
 }

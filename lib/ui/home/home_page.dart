@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/models/news_model.dart';
 import 'package:flutter_study/ui/home/home_carousel.dart';
+import 'package:flutter_study/ui/home/home_report_section.dart';
 import 'package:flutter_study/ui/home/home_report_tile.dart';
 import 'package:flutter_study/ui/home/home_view_model.dart';
 import 'package:flutter_study/utils/log_util.dart';
@@ -27,7 +28,7 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   int _counter = 0;
   final _viewModel = HomeViewModel();
-  TodayNewsModel? todayNews;
+  HomeNewsContent? _homeNews;
 
   final ScrollController _scrollController = ScrollController();
 
@@ -49,7 +50,7 @@ class _HomePage extends State<HomePage> {
       switch (result.status) {
         case Status.success:
           setState(() {
-            todayNews = result.data!;
+            _homeNews = result.data!;
           });
           break;
         case Status.error:
@@ -64,6 +65,7 @@ class _HomePage extends State<HomePage> {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         LogUtil.v('滑动到了最底部');
+        _viewModel.loadMore();
         // _getMore();
       }
     });
@@ -100,7 +102,7 @@ class _HomePage extends State<HomePage> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: todayNews == null ? _emptyPage() : _buildBody(),
+      body: _homeNews == null ? _emptyPage() : _buildBody(),
       floatingActionButton: _buildFloatButton(),
     );
   }
@@ -115,9 +117,12 @@ class _HomePage extends State<HomePage> {
             parent: AlwaysScrollableScrollPhysics()),
         child: Column(
           children: [
-            HomeCarousel(topNews: todayNews!.topStories),
-            ...todayNews!.stories
-                .map((newsModel) => HomeReportTile(newsModel: newsModel))
+            _homeNews?.todayNews?.topStories == null
+                ? const SizedBox(height: 0)
+                : HomeCarousel(topNews: _homeNews!.todayNews!.topStories),
+            HomeReportSection(dataList: _homeNews!.todayNews!.stories),
+            ..._homeNews!.dailyNews?.map((model) => HomeReportSection(
+                dataList: model.stories, date: model.date, isToday: false)) ?? []
           ],
         ),
       ),
