@@ -7,9 +7,10 @@ import 'package:flutter_study/ui/home/home_carousel_tile.dart';
 import 'package:flutter_study/utils/log_util.dart';
 
 class HomeCarousel extends StatefulWidget {
-  const HomeCarousel({Key? key, required this.topNews}) : super(key: key);
+  const HomeCarousel({Key? key, required this.topNews, required this.onTileClicked}) : super(key: key);
 
   final List<TopNewsModel> topNews;
+  final Function(String) onTileClicked;
 
   @override
   State<HomeCarousel> createState() => _HomeCarousel();
@@ -62,7 +63,7 @@ class _HomeCarousel extends State<HomeCarousel> with WidgetsBindingObserver {
           controller: _pageController,
           onPageChanged: _onPageChanged,// 当页面滑动到一半便会调用
           children: [
-            ..._dataList.map((model) => HomeCarouselTile(topNewsModel: model))
+            ..._dataList.map((model) => HomeCarouselTile(topNewsModel: model, onTileClicked: widget.onTileClicked,))
           ],
         ));
   }

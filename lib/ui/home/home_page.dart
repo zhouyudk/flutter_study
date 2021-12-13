@@ -117,12 +117,15 @@ class _HomePage extends State<HomePage> {
             parent: AlwaysScrollableScrollPhysics()),
         child: Column(
           children: [
+            //today top
             _homeNews?.todayNews?.topStories == null
                 ? const SizedBox(height: 0)
-                : HomeCarousel(topNews: _homeNews!.todayNews!.topStories),
-            HomeReportSection(dataList: _homeNews!.todayNews!.stories),
+                : HomeCarousel(topNews: _homeNews!.todayNews!.topStories, onTileClicked: _onTileClicked,),
+            //today list
+            HomeReportSection(dataList: _homeNews!.todayNews!.stories, onTileClicked: _onTileClicked,),
+            // yesterday and other list
             ..._homeNews!.dailyNews?.map((model) => HomeReportSection(
-                dataList: model.stories, date: model.date, isToday: false)) ?? []
+                dataList: model.stories, date: model.date, isToday: false, onTileClicked: _onTileClicked,)) ?? []
           ],
         ),
       ),
@@ -158,4 +161,9 @@ class _HomePage extends State<HomePage> {
       _viewModel.onRefresh();
     });
   }
+
+  _onTileClicked(String newsId) {
+    LogUtil.v("点击了tile- ${newsId}");
+  }
+
 }

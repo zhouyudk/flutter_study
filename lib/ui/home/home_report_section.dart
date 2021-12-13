@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/utils/date_util.dart';
+import 'package:flutter_study/utils/log_util.dart';
 import 'package:flutter_study/values/dimens.dart';
 import 'package:flutter_study/models/news_model.dart';
 import 'package:intl/intl.dart';
@@ -11,9 +12,10 @@ class HomeReportSection extends StatelessWidget {
   final List<NewsModel> dataList;
   final bool isToday;
   final String date;
+  final Function(String) onTileClicked;
 
   const HomeReportSection(
-      {Key? key, required this.dataList, this.isToday = true, this.date = ""})
+      {Key? key, required this.dataList, this.isToday = true, this.date = "", required this.onTileClicked})
       : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class HomeReportSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
          isToday ? const SizedBox(height: 0) : _buildHeader(),
-        ...dataList.map((newsModel) => HomeReportTile(newsModel: newsModel))
+        ...dataList.map((newsModel) => HomeReportTile(newsModel: newsModel, onTileClicked: onTileClicked))
       ],
     );
   }
