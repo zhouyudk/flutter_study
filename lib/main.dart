@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study/routes.dart';
+import 'package:flutter_study/ui/detail_page/detail_page.dart';
 import 'package:flutter_study/ui/home/home_page.dart';
 import 'package:flutter_study/ui/home/home_view_model.dart';
 
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const HomePage(),
+      routes: Routes.all,
     );
   }
 }

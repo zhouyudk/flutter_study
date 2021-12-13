@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/models/news_model.dart';
+import 'package:flutter_study/routes.dart';
 import 'package:flutter_study/ui/home/home_carousel.dart';
 import 'package:flutter_study/ui/home/home_report_section.dart';
 import 'package:flutter_study/ui/home/home_report_tile.dart';
@@ -195,5 +196,6 @@ class _HomePage extends State<HomePage> {
 
   _onTileClicked(String newsId) {
     LogUtil.v("点击了tile- ${newsId}");
+    Navigator.of(context).pushNamed(Routes.detailPage, arguments: newsId);
   }
 }

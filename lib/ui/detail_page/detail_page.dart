@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({Key? key}): super(key: key);
+  final String newsId;
+  const DetailPage({Key? key, required this.newsId}): super(key: key);
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    throw UnimplementedError();
+    return Center(child: Text("dfkajsdkfjalksdjflakjdslfkjalsdkjfla----$newsId"),);
   }
 }
