@@ -1,4 +1,15 @@
+import 'package:intl/intl.dart';
 
 class DateUtil {
-  // static
+  static const yyyyMMdd = "yyyyMMdd";
+  // static final DateUtil _dateUtil = DateUtil._internal();
+  //
+  // factory DateUtil() => _dateUtil;
+  //
+  // DateUtil._internal();
+  // final dateFormat = DateFormat();
+  //
+  // String formatDateToString(DateTime date, String formatString) {
+  //   dateFormat.
+  // }
 }

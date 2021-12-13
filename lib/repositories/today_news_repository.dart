@@ -5,6 +5,7 @@ import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/managers/api_manager.dart';
 import 'package:flutter_study/models/news_model.dart';
 import 'package:flutter_study/ui/home/home_view_model.dart';
+import 'package:flutter_study/utils/date_util.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -41,7 +42,7 @@ class TodayNewsRepository {
     }
     _isLoading = true;
     _apiManager
-        .get(Api.newsBeforeDate, para: queryDate())
+        .get(Api.newsBeforeDate, para: formatQueryDate())
         .map((data) => DailyNewsModel.fromJson(jsonDecode(data.toString())))
         .listen((model) {
       final currentData = homeNewsContentSubject.value.data;
@@ -60,9 +61,8 @@ class TodayNewsRepository {
     newsDetailSubject.add(NewsModel.fromJson(jsonDecode(newsData.toString())));
   }
 
-  String queryDate() {
+  String formatQueryDate() {
     final date = DateTime.now().subtract(Duration(days: _loadedDays));
-    final dateFormat = DateFormat("yyyyMMdd");
-    return dateFormat.format(date);
+    return DateFormat(DateUtil.yyyyMMdd).format(date);
   }
 }
