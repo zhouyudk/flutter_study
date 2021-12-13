@@ -7,6 +7,7 @@ import 'package:flutter_study/ui/home/home_report_section.dart';
 import 'package:flutter_study/ui/home/home_report_tile.dart';
 import 'package:flutter_study/ui/home/home_view_model.dart';
 import 'package:flutter_study/utils/log_util.dart';
+import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,6 +30,8 @@ class _HomePage extends State<HomePage> {
   int _counter = 0;
   final _viewModel = HomeViewModel();
   HomeNewsContent? _homeNews;
+  final _day = DateFormat("dd").format(DateTime.now());
+  final _month = DateFormat("MM月").format(DateTime.now());
 
   final ScrollController _scrollController = ScrollController();
 
@@ -86,16 +89,33 @@ class _HomePage extends State<HomePage> {
       appBar: AppBar(
         title: const Text("Flutter Demo"),
         leading: SizedBox(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              Text("10"),
-              Text(
-                "12",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold),
+          child: Row(
+            children: [
+              const SizedBox(
+                width: 15,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(_day,
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold)),
+                  Text(
+                    _month,
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
+                  )
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 10, bottom: 10, left: 10),
+                child: SizedBox(
+                  height: double.infinity,
+                  width: 2,
+                  child: DecoratedBox(
+                      decoration: BoxDecoration(color: Colors.white70)),
+                ),
               )
             ],
           ),
@@ -120,12 +140,23 @@ class _HomePage extends State<HomePage> {
             //today top
             _homeNews?.todayNews?.topStories == null
                 ? const SizedBox(height: 0)
-                : HomeCarousel(topNews: _homeNews!.todayNews!.topStories, onTileClicked: _onTileClicked,),
+                : HomeCarousel(
+                    topNews: _homeNews!.todayNews!.topStories,
+                    onTileClicked: _onTileClicked,
+                  ),
             //today list
-            HomeReportSection(dataList: _homeNews!.todayNews!.stories, onTileClicked: _onTileClicked,),
+            HomeReportSection(
+              dataList: _homeNews!.todayNews!.stories,
+              onTileClicked: _onTileClicked,
+            ),
             // yesterday and other list
             ..._homeNews!.dailyNews?.map((model) => HomeReportSection(
-                dataList: model.stories, date: model.date, isToday: false, onTileClicked: _onTileClicked,)) ?? []
+                      dataList: model.stories,
+                      date: model.date,
+                      isToday: false,
+                      onTileClicked: _onTileClicked,
+                    )) ??
+                []
           ],
         ),
       ),
@@ -165,5 +196,4 @@ class _HomePage extends State<HomePage> {
   _onTileClicked(String newsId) {
     LogUtil.v("点击了tile- ${newsId}");
   }
-
 }
