@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_study/utils/date_util.dart';
 import 'package:flutter_study/values/dimens.dart';
 import 'package:flutter_study/models/news_model.dart';
+import 'package:intl/intl.dart';
 
 import 'home_report_tile.dart';
 
@@ -34,7 +36,7 @@ class HomeReportSection extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
-            date,
+            _formatDateString(date),
             style: const TextStyle(
                 color: Colors.black38,
                 fontSize: 18,
@@ -51,5 +53,9 @@ class HomeReportSection extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _formatDateString(String dateString) {
+   return DateFormat(DateUtil.MMdd).format(DateTime.parse(dateString));
   }
 }

@@ -25,6 +25,9 @@ class HomeReportTile extends StatelessWidget {
               children: [
                 Text(
                   newsModel.title,
+                  maxLines: 2,
+                  //文本超长时添加省略号
+                  overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
