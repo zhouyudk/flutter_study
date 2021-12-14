@@ -11,9 +11,9 @@ class HomeReportTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       //加上此项 点击空白区域才能响应
-      behavior: HitTestBehavior.opaque,
+      // behavior: HitTestBehavior.opaque,
       onTap: _onTap,
       child:  Padding(
         padding: const EdgeInsets.only(left: 24, top: 15, right: 24, bottom: 15),

@@ -45,7 +45,9 @@ dependencies:
   flukit: ^2.0.0
   #便捷日志打印
   logger: ^1.1.0
+  #日期格式化
   intl: ^0.17.0
+  animations: ^2.0.2
 
 dev_dependencies:
   flutter_test:

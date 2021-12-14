@@ -131,35 +131,32 @@ class _HomePage extends State<HomePage> {
   Widget _buildBody() {
     //以scrollView 作为RefreshIndicator的子组件 才能触发刷新
     return RefreshIndicator(
-      child: SingleChildScrollView(
+      child: ListView(
         controller: _scrollController,
-        //在Android上scrollView也能像iOS一样将offset滑动为负数
         physics: const BouncingScrollPhysics(
             parent: AlwaysScrollableScrollPhysics()),
-        child: Column(
-          children: [
-            //today top
-            _homeNews?.todayNews?.topStories == null
-                ? const SizedBox(height: 0)
-                : HomeCarousel(
-                    topNews: _homeNews!.todayNews!.topStories,
+        children: [
+          //today top
+          _homeNews?.todayNews?.topStories == null
+              ? const SizedBox(height: 0)
+              : HomeCarousel(
+                  topNews: _homeNews!.todayNews!.topStories,
+                  onTileClicked: _onTileClicked,
+                ),
+          //today list
+          HomeReportSection(
+            dataList: _homeNews!.todayNews!.stories,
+            onTileClicked: _onTileClicked,
+          ),
+          // yesterday and other list
+          ..._homeNews!.dailyNews?.map((model) => HomeReportSection(
+                    dataList: model.stories,
+                    date: model.date,
+                    isToday: false,
                     onTileClicked: _onTileClicked,
-                  ),
-            //today list
-            HomeReportSection(
-              dataList: _homeNews!.todayNews!.stories,
-              onTileClicked: _onTileClicked,
-            ),
-            // yesterday and other list
-            ..._homeNews!.dailyNews?.map((model) => HomeReportSection(
-                      dataList: model.stories,
-                      date: model.date,
-                      isToday: false,
-                      onTileClicked: _onTileClicked,
-                    )) ??
-                []
-          ],
-        ),
+                  )) ??
+              [],
+        ],
       ),
       onRefresh: _onRefresh,
     );
