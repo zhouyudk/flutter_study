@@ -20,7 +20,7 @@ class TodayNewsRepository {
   final _apiManager = ApiManager();
 
   final todayNewsSubject = StreamController<Resource<TodayNewsModel>>();
-  final homeNewsContentSubject = BehaviorSubject<Resource<HomeNewsContent>>();
+  final homeNewsContentSubject = BehaviorSubject.seeded(Resource<HomeNewsContent>.empty());
   final dailyNewsSubject = StreamController<List<DailyNewsModel>>();
   final newsDetailSubject = StreamController<NewsModel>();
 

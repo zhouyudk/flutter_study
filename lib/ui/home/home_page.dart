@@ -10,6 +10,7 @@ import 'package:flutter_study/ui/home/home_view_model.dart';
 import 'package:flutter_study/utils/log_util.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -30,9 +31,9 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   int _counter = 0;
   final _viewModel = HomeViewModel();
-  HomeNewsContent? _homeNews;
   final _day = DateFormat("dd").format(DateTime.now());
   final _month = DateFormat("MM月").format(DateTime.now());
+  var _dataResult = Resource<HomeNewsContent>.empty();
 
   final ScrollController _scrollController = ScrollController();
 
@@ -51,18 +52,9 @@ class _HomePage extends State<HomePage> {
   @override
   void initState() {
     _viewModel.todayNewsContent.listen((result) {
-      switch (result.status) {
-        case Status.success:
-          setState(() {
-            _homeNews = result.data!;
-          });
-          break;
-        case Status.error:
-          // show some error
-          break;
-        default:
-          break;
-      }
+      setState(() {
+        _dataResult = result;
+      });
     });
 
     _scrollController.addListener(() {
@@ -123,12 +115,25 @@ class _HomePage extends State<HomePage> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: _homeNews == null ? _emptyPage() : _buildBody(),
+      body: _buildPlaceholder(), //_buildBody(),
       floatingActionButton: _buildFloatButton(),
     );
   }
 
   Widget _buildBody() {
+    switch (_dataResult.status) {
+      case Status.success:
+        return _buildSuccessContent(_dataResult.data!);
+      case Status.error:
+        return _buildErrorContent();
+      case Status.empty:
+        return _buildPlaceholder();
+      default:
+        return _buildErrorContent();
+    }
+  }
+
+  Widget _buildSuccessContent(HomeNewsContent content) {
     //以scrollView 作为RefreshIndicator的子组件 才能触发刷新
     return RefreshIndicator(
       child: ListView(
@@ -137,19 +142,19 @@ class _HomePage extends State<HomePage> {
             parent: AlwaysScrollableScrollPhysics()),
         children: [
           //today top
-          _homeNews?.todayNews?.topStories == null
+          content.todayNews?.topStories == null
               ? const SizedBox(height: 0)
               : HomeCarousel(
-                  topNews: _homeNews!.todayNews!.topStories,
+                  topNews: content.todayNews!.topStories,
                   onTileClicked: _onTileClicked,
                 ),
           //today list
           HomeReportSection(
-            dataList: _homeNews!.todayNews!.stories,
+            dataList: content.todayNews!.stories,
             onTileClicked: _onTileClicked,
           ),
           // yesterday and other list
-          ..._homeNews!.dailyNews?.map((model) => HomeReportSection(
+          ...content.dailyNews?.map((model) => HomeReportSection(
                     dataList: model.stories,
                     date: model.date,
                     isToday: false,
@@ -162,6 +167,51 @@ class _HomePage extends State<HomePage> {
     );
   }
 
+  Widget _buildPlaceholder() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey,
+      highlightColor: Colors.white30,
+      child: ListView(
+        children: const [
+          AspectRatio(
+            aspectRatio: 1,
+            child: SizedBox(
+              width: double.infinity,
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: Colors.black),
+              ),
+            ),
+          ),
+          Text("testat", style: TextStyle(fontSize: 40)),
+          Text("testat", style: TextStyle(fontSize: 40)),
+          Text("testat", style: TextStyle(fontSize: 40)),
+          Text("testat", style: TextStyle(fontSize: 40)),
+          SizedBox(
+            height: 100,
+            width: 200,
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: Colors.black),
+            ),
+          ),
+          SizedBox(
+            height: 100,
+            width: 200,
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: Colors.black),
+            ),
+          ),
+          SizedBox(
+            height: 100,
+            width: 200,
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: Colors.black),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget _buildFloatButton() {
     return FloatingActionButton(
       onPressed: _incrementCounter,
@@ -170,7 +220,7 @@ class _HomePage extends State<HomePage> {
     );
   }
 
-  Widget _emptyPage() {
+  Widget _buildErrorContent() {
     return Center(
       child: ElevatedButton(
         child: Text(

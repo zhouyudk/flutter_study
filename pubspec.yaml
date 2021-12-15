@@ -48,6 +48,8 @@ dependencies:
   #日期格式化
   intl: ^0.17.0
   animations: ^2.0.2
+  #添加流光
+  shimmer: ^2.0.0
 
 dev_dependencies:
   flutter_test:
