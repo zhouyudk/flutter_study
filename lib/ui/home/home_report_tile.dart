@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/models/news_model.dart';
 import 'package:flutter_study/utils/log_util.dart';
+import 'package:flutter_study/values/images.dart';
 
 class HomeReportTile extends StatelessWidget {
   final NewsModel newsModel;
@@ -52,7 +53,7 @@ class HomeReportTile extends StatelessWidget {
               const SizedBox(width: 15),
               AspectRatio(
                   aspectRatio: 1,
-                  child: FadeInImage.assetNetwork(placeholder: 'assets/image_placeholder.png', image: newsModel.images.first))
+                  child: FadeInImage.assetNetwork(placeholder: RImages.placeHolder, image: newsModel.images.first))
             ],
           ),
         ),

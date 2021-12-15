@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/models/news_model.dart';
+import 'package:flutter_study/values/images.dart';
 
 class HomeCarouselTile extends StatelessWidget {
   final TopNewsModel topNewsModel;
@@ -21,7 +22,7 @@ class HomeCarouselTile extends StatelessWidget {
             SizedBox(
               height: double.infinity,
               width: double.infinity,
-              child: FadeInImage.assetNetwork(placeholder: 'assets/image_placeholder.png', image: topNewsModel.image),
+              child: FadeInImage.assetNetwork(placeholder: RImages.placeHolder, image: topNewsModel.image),
             ),
             Positioned(
                 left: 30,
