@@ -1,15 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/common/resource.dart';
-import 'package:flutter_study/models/news_model.dart';
 import 'package:flutter_study/routes.dart';
 import 'package:flutter_study/ui/home/home_carousel.dart';
 import 'package:flutter_study/ui/home/home_report_section.dart';
-import 'package:flutter_study/ui/home/home_report_tile.dart';
 import 'package:flutter_study/ui/home/home_view_model.dart';
 import 'package:flutter_study/utils/log_util.dart';
 import 'package:intl/intl.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomePage extends StatefulWidget {
@@ -115,7 +112,7 @@ class _HomePage extends State<HomePage> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: _buildPlaceholder(), //_buildBody(),
+      body: _buildBody(),
       floatingActionButton: _buildFloatButton(),
     );
   }
@@ -168,13 +165,28 @@ class _HomePage extends State<HomePage> {
   }
 
   Widget _buildPlaceholder() {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey,
-      highlightColor: Colors.white30,
+    return Shimmer(
+      gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.centerRight,
+          colors: <Color>[
+            Colors.black12,
+            Colors.black12,
+            Colors.white10,
+            Colors.black12,
+            Colors.black12
+          ],
+          stops: <double>[
+            0.3,
+            0.45,
+            0.5,
+            0.55,
+            0.7
+          ]),
       child: ListView(
-        children: const [
-          AspectRatio(
-            aspectRatio: 1,
+        children: [
+          const AspectRatio(
+            aspectRatio: 1.3,
             child: SizedBox(
               width: double.infinity,
               child: DecoratedBox(
@@ -182,31 +194,47 @@ class _HomePage extends State<HomePage> {
               ),
             ),
           ),
-          Text("testat", style: TextStyle(fontSize: 40)),
-          Text("testat", style: TextStyle(fontSize: 40)),
-          Text("testat", style: TextStyle(fontSize: 40)),
-          Text("testat", style: TextStyle(fontSize: 40)),
-          SizedBox(
-            height: 100,
-            width: 200,
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: Colors.black),
-            ),
-          ),
-          SizedBox(
-            height: 100,
-            width: 200,
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: Colors.black),
-            ),
-          ),
-          SizedBox(
-            height: 100,
-            width: 200,
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: Colors.black),
-            ),
-          )
+           ...[1,2,3,4].map((e) => Padding(
+             padding: const EdgeInsets.only(top: 15, bottom: 15, left: 24, right: 24),
+             child: SizedBox(
+               height: 100,
+               width: double.infinity,
+               child: Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                 children: [
+                   Column(
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: const [
+                       SizedBox(
+                           width: 200,
+                           height: 30,
+                           child: DecoratedBox(
+                             decoration: BoxDecoration(color: Colors.black),
+                           )),
+                       SizedBox(
+                         height: 5,
+                       ),
+                       SizedBox(
+                           width: 150,
+                           height: 25,
+                           child: DecoratedBox(
+                             decoration: BoxDecoration(color: Colors.black),
+                           )),
+                     ],
+                   ),
+                   const AspectRatio(
+                     aspectRatio: 1,
+                     child: SizedBox(
+                       width: double.infinity,
+                       child: DecoratedBox(
+                         decoration: BoxDecoration(color: Colors.black),
+                       ),
+                     ),
+                   )
+                 ],
+               ),
+             ),
+           ))
         ],
       ),
     );
