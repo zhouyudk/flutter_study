@@ -21,19 +21,7 @@ class HomeCarouselTile extends StatelessWidget {
             SizedBox(
               height: double.infinity,
               width: double.infinity,
-              child: Image(
-                image: NetworkImage(topNewsModel.image),
-                fit: BoxFit.fill,
-                loadingBuilder: (BuildContext context, Widget child,
-                    ImageChunkEvent? loadingProgress) =>
-                loadingProgress == null
-                    ? child
-                    : const SizedBox(
-                  height: double.infinity,
-                  width: double.infinity,
-                  child: ColoredBox(color: Colors.grey),
-                ),
-              ),
+              child: FadeInImage.assetNetwork(placeholder: 'assets/image_placeholder.png', image: topNewsModel.image),
             ),
             Positioned(
                 left: 30,
