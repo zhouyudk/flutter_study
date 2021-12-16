@@ -82,7 +82,7 @@ class NewsDetailModel {
   @JsonKey(name: "image_hue")
   final String imageHue;
   @JsonKey(name: "image_source")
-  final String imageSource;
+  final String? imageSource;
   @JsonKey(name: "share_url")
   final String shareUrl;
   final List<String> js;

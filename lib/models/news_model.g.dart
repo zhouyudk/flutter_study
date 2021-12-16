@@ -81,7 +81,7 @@ NewsDetailModel _$NewsDetailModelFromJson(Map<String, dynamic> json) =>
       json['id'] as int,
       json['type'] as int,
       json['image_hue'] as String,
-      json['image_source'] as String,
+      json['image_source'] as String?,
       json['share_url'] as String,
       (json['js'] as List<dynamic>).map((e) => e as String).toList(),
       json['ga_prefix'] as String,

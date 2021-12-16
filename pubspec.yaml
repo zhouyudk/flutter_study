@@ -50,6 +50,8 @@ dependencies:
   animations: ^2.0.2
   #添加流光
   shimmer: ^2.0.0
+  #显示Html
+  flutter_html: ^2.2.1
 
 dev_dependencies:
   flutter_test:
