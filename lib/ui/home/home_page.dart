@@ -194,7 +194,7 @@ class _HomePage extends State<HomePage> {
               ),
             ),
           ),
-           ...[1,2,3,4].map((e) => Padding(
+           ...List.generate(4, (index) => 0).map((e) => Padding(
              padding: const EdgeInsets.only(top: 15, bottom: 15, left: 24, right: 24),
              child: SizedBox(
                height: 100,

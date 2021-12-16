@@ -22,7 +22,7 @@ class HomeCarouselTile extends StatelessWidget {
             SizedBox(
               height: double.infinity,
               width: double.infinity,
-              child: FadeInImage.assetNetwork(placeholder: RImages.placeHolder, image: topNewsModel.image),
+              child: FadeInImage.assetNetwork(placeholder: ImageResource.placeHolder, image: topNewsModel.image),
             ),
             Positioned(
                 left: 30,

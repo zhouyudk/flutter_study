@@ -72,3 +72,35 @@ Map<String, dynamic> _$DailyNewsModelToJson(DailyNewsModel instance) =>
       'date': instance.date,
       'stories': instance.stories,
     };
+
+NewsDetailModel _$NewsDetailModelFromJson(Map<String, dynamic> json) =>
+    NewsDetailModel(
+      json['image'] as String,
+      json['title'] as String,
+      json['url'] as String,
+      json['id'] as int,
+      json['type'] as int,
+      json['image_hue'] as String,
+      json['image_source'] as String,
+      json['share_url'] as String,
+      (json['js'] as List<dynamic>).map((e) => e as String).toList(),
+      json['ga_prefix'] as String,
+      (json['css'] as List<dynamic>).map((e) => e as String).toList(),
+      json['body'] as String,
+    );
+
+Map<String, dynamic> _$NewsDetailModelToJson(NewsDetailModel instance) =>
+    <String, dynamic>{
+      'image': instance.image,
+      'title': instance.title,
+      'url': instance.url,
+      'id': instance.id,
+      'type': instance.type,
+      'image_hue': instance.imageHue,
+      'image_source': instance.imageSource,
+      'share_url': instance.shareUrl,
+      'js': instance.js,
+      'ga_prefix': instance.gaPrefix,
+      'css': instance.css,
+      'body': instance.body,
+    };

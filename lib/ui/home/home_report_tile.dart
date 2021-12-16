@@ -53,7 +53,7 @@ class HomeReportTile extends StatelessWidget {
               const SizedBox(width: 15),
               AspectRatio(
                   aspectRatio: 1,
-                  child: FadeInImage.assetNetwork(placeholder: RImages.placeHolder, image: newsModel.images.first))
+                  child: FadeInImage.assetNetwork(placeholder: ImageResource.placeHolder, image: newsModel.images.first))
             ],
           ),
         ),

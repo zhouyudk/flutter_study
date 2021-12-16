@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 class Resource<T>{
   final T? data;
-  final DioError? e;
+  final String? e;
   final Status status;
   Resource.success({required this.data, this.e, this.status = Status.success});
 

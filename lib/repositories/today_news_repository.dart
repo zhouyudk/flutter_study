@@ -6,6 +6,7 @@ import 'package:flutter_study/managers/api_manager.dart';
 import 'package:flutter_study/models/news_model.dart';
 import 'package:flutter_study/ui/home/home_view_model.dart';
 import 'package:flutter_study/utils/date_util.dart';
+import 'package:flutter_study/utils/log_util.dart';
 import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -19,10 +20,8 @@ class TodayNewsRepository {
 
   final _apiManager = ApiManager();
 
-  final todayNewsSubject = StreamController<Resource<TodayNewsModel>>();
   final homeNewsContentSubject = BehaviorSubject.seeded(Resource<HomeNewsContent>.empty());
-  final dailyNewsSubject = StreamController<List<DailyNewsModel>>();
-  final newsDetailSubject = StreamController<NewsModel>();
+  final newsDetailSubject = BehaviorSubject.seeded(Resource<NewsDetailModel>.empty());
 
   var _loadedDays = 0;
   var _isLoading = false;
@@ -33,7 +32,7 @@ class TodayNewsRepository {
         .get(Api.todayNews)
         .map((data) => TodayNewsModel.fromJson(jsonDecode(data.toString())))
         .listen((model) => homeNewsContentSubject.add(Resource.success(data: HomeNewsContent(todayNews: model))),
-            onError: (error) => homeNewsContentSubject.add(Resource.error(e: error)));
+            onError: (error) => homeNewsContentSubject.add(Resource.error(e: error.toString())));
   }
 
   fetchNewsBeforeDate() {
@@ -57,8 +56,14 @@ class TodayNewsRepository {
   }
 
   fetchNewsDetail(String newsId) async {
-    final newsData = await _apiManager.get(Api.newsDetail, para: newsId);
-    newsDetailSubject.add(NewsModel.fromJson(jsonDecode(newsData.toString())));
+    _apiManager
+        .get(Api.newsDetail, para: newsId)
+        .map((data) {
+          LogUtil.v(data.toString());
+      return NewsDetailModel.fromJson(jsonDecode(data.toString()));
+    })
+        .listen((model) => newsDetailSubject.add(Resource.success(data: model)),
+        onError: (error) => newsDetailSubject.add(Resource.error(e: error.toString())));
   }
 
   String formatQueryDate() {
