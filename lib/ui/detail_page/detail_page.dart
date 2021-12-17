@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/models/news_model.dart';
@@ -38,6 +39,20 @@ class _DetailPageState extends State<DetailPage> with SetStateSafety {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          //设置statusBar背景色
+          systemOverlayStyle:
+              const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () => Navigator.pop(context),
+          )),
       body: _buildBody(),
     );
   }
@@ -61,6 +76,8 @@ class _DetailPageState extends State<DetailPage> with SetStateSafety {
       return _buildError();
     } else {
       return ListView(
+        //设置appbar的背景透明后，需修改listView的top padding为0  内容才会显示到屏幕顶部
+        padding: const EdgeInsets.only(top: 0),
         children: [
           _header(model),
           _htmlBody(model),
@@ -72,8 +89,11 @@ class _DetailPageState extends State<DetailPage> with SetStateSafety {
   Widget _header(NewsDetailModel model) {
     return Stack(
       children: [
-        FadeInImage.assetNetwork(
-            placeholder: ImageResource.placeHolder, image: model.image),
+        AspectRatio(
+          aspectRatio: 1,
+          child: FadeInImage.assetNetwork(
+              placeholder: ImageResource.placeHolder, image: model.image),
+        ),
         const Positioned(
             height: 250,
             bottom: 0,
@@ -154,6 +174,7 @@ class _DetailPageState extends State<DetailPage> with SetStateSafety {
             0.7
           ]),
       child: ListView(
+        padding: const EdgeInsets.only(top: 0),
         children: [
           const AspectRatio(
             aspectRatio: 1.3,

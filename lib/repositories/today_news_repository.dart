@@ -11,12 +11,12 @@ import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 class TodayNewsRepository {
-  static final TodayNewsRepository _todayNewsRepository =
-      TodayNewsRepository._internal();
-
-  factory TodayNewsRepository() => _todayNewsRepository;
-
-  TodayNewsRepository._internal();
+  // static final TodayNewsRepository _todayNewsRepository =
+  //     TodayNewsRepository._internal();
+  //
+  // factory TodayNewsRepository() => _todayNewsRepository;
+  //
+  // TodayNewsRepository._internal();
 
   final _apiManager = ApiManager();
 
@@ -53,17 +53,6 @@ class TodayNewsRepository {
       // todayNewsSubject.add(Resource.error(e: error));
       _isLoading = false;
     });
-  }
-
-  fetchNewsDetail(String newsId) async {
-    _apiManager
-        .get(Api.newsDetail, para: newsId)
-        .map((data) {
-          LogUtil.v(data.toString());
-      return NewsDetailModel.fromJson(jsonDecode(data.toString()));
-    })
-        .listen((model) => newsDetailSubject.add(Resource.success(data: model)),
-        onError: (error) => newsDetailSubject.add(Resource.error(e: error.toString())));
   }
 
   String formatQueryDate() {

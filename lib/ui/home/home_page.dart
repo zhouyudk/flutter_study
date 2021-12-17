@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/routes.dart';
 import 'package:flutter_study/ui/home/home_carousel.dart';
@@ -78,6 +79,8 @@ class _HomePage extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Flutter Demo"),
+        systemOverlayStyle:
+            const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
         leading: SizedBox(
           child: Row(
             children: [
@@ -194,47 +197,48 @@ class _HomePage extends State<HomePage> {
               ),
             ),
           ),
-           ...List.generate(4, (index) => 0).map((e) => Padding(
-             padding: const EdgeInsets.only(top: 15, bottom: 15, left: 24, right: 24),
-             child: SizedBox(
-               height: 100,
-               width: double.infinity,
-               child: Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                 children: [
-                   Column(
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: const [
-                       SizedBox(
-                           width: 200,
-                           height: 30,
-                           child: DecoratedBox(
-                             decoration: BoxDecoration(color: Colors.black),
-                           )),
-                       SizedBox(
-                         height: 5,
-                       ),
-                       SizedBox(
-                           width: 150,
-                           height: 25,
-                           child: DecoratedBox(
-                             decoration: BoxDecoration(color: Colors.black),
-                           )),
-                     ],
-                   ),
-                   const AspectRatio(
-                     aspectRatio: 1,
-                     child: SizedBox(
-                       width: double.infinity,
-                       child: DecoratedBox(
-                         decoration: BoxDecoration(color: Colors.black),
-                       ),
-                     ),
-                   )
-                 ],
-               ),
-             ),
-           ))
+          ...List.generate(4, (index) => 0).map((e) => Padding(
+                padding: const EdgeInsets.only(
+                    top: 15, bottom: 15, left: 24, right: 24),
+                child: SizedBox(
+                  height: 100,
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: const [
+                          SizedBox(
+                              width: 200,
+                              height: 30,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(color: Colors.black),
+                              )),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          SizedBox(
+                              width: 150,
+                              height: 25,
+                              child: DecoratedBox(
+                                decoration: BoxDecoration(color: Colors.black),
+                              )),
+                        ],
+                      ),
+                      const AspectRatio(
+                        aspectRatio: 1,
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(color: Colors.black),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ))
         ],
       ),
     );

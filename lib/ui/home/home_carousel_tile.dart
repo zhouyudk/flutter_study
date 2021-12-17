@@ -29,6 +29,7 @@ class HomeCarouselTile extends StatelessWidget {
                       Image.asset(ImageResource.placeHolder),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
                 )
+                //NetworkImage只在内存缓存
                 // FadeInImage.assetNetwork(placeholder: ImageResource.placeHolder,
                 // image: topNewsModel.image),
                 ),
