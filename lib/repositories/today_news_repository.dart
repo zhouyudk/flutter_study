@@ -39,6 +39,7 @@ class TodayNewsRepository {
     if (_isLoading) {
       return;
     }
+    homeNewsContentSubject.add(Resource.loading(data: homeNewsContentSubject.value.data));
     _isLoading = true;
     _apiManager
         .get(Api.newsBeforeDate, para: formatQueryDate())

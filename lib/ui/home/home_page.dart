@@ -56,8 +56,9 @@ class _HomePage extends State<HomePage> {
     });
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
+      LogUtil.v("${_scrollController.position.pixels}----${_scrollController.position.maxScrollExtent}");
+      if (_scrollController.position.pixels >
+          _scrollController.position.maxScrollExtent-500) {
         LogUtil.v('滑动到了最底部');
         _viewModel.loadMore();
         // _getMore();
@@ -128,6 +129,8 @@ class _HomePage extends State<HomePage> {
         return _buildErrorContent();
       case Status.empty:
         return _buildPlaceholder();
+      case Status.loading:
+        return _buildSuccessContent(_dataResult.data!);
       default:
         return _buildErrorContent();
     }
@@ -161,6 +164,17 @@ class _HomePage extends State<HomePage> {
                     onTileClicked: _onTileClicked,
                   )) ??
               [],
+          _dataResult.status == Status.loading
+              ? const SizedBox(
+                  height: 50,
+                  child: Center(
+                    child: Text(
+                      "加载更多.......",
+                      style: TextStyle(fontSize: 18, color: Colors.black54),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
       onRefresh: _onRefresh,
