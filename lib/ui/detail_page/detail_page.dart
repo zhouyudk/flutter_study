@@ -9,6 +9,8 @@ import 'package:flutter_study/utils/log_util.dart';
 import 'package:flutter_study/values/images.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sprintf/sprintf.dart';
+import 'package:html/dom.dart' as dom;
+import 'package:html/parser.dart' as htmlParser;
 
 import '../state_mixin.dart';
 
@@ -148,10 +150,18 @@ class _DetailPageState extends State<DetailPage> with SetStateSafety {
     );
   }
 
+
   Widget _htmlBody(NewsDetailModel model) {
-    return Html(data: sprintf(htmlTemplate, [model.css.first, model.body])
-        // css+model.body
-        );
+    // return Html.fromDom(document: htmlParser.parse(sprintf(htmlTemplate, [model.css.first, model.body])));
+    return Html(
+      data: sprintf(htmlTemplate, [model.css.first, model.body]),
+      onImageTap: _onHtmlImageTap,
+    );
+  }
+
+  _onHtmlImageTap(String? url, RenderContext context,
+      Map<String, String> attributes, dom.Element? element) {
+    LogUtil.v(element?.nodes.toString());
   }
 
   Widget _buildPlaceholder() {
