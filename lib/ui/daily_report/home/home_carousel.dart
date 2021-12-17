@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/models/news_model.dart';
-import 'package:flutter_study/ui/home/home_carousel_tile.dart';
 import 'package:flutter_study/utils/log_util.dart';
+
+import 'home_carousel_tile.dart';
 
 class HomeCarousel extends StatefulWidget {
   const HomeCarousel({Key? key, required this.topNews, required this.onTileClicked}) : super(key: key);

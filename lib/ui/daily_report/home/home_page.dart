@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/routes.dart';
-import 'package:flutter_study/ui/home/home_carousel.dart';
-import 'package:flutter_study/ui/home/home_report_section.dart';
-import 'package:flutter_study/ui/home/home_view_model.dart';
 import 'package:flutter_study/utils/log_util.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+import 'home_carousel.dart';
+import 'home_report_section.dart';
+import 'home_view_model.dart';
+
+class DailyReportHomePage extends StatefulWidget {
+  const DailyReportHomePage({Key? key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -23,10 +24,10 @@ class HomePage extends StatefulWidget {
   // always marked "final".
 
   @override
-  State<HomePage> createState() => _HomePage();
+  State<DailyReportHomePage> createState() => _HomePage();
 }
 
-class _HomePage extends State<HomePage> {
+class _HomePage extends State<DailyReportHomePage> {
   int _counter = 0;
   final _viewModel = HomeViewModel();
   final _day = DateFormat("dd").format(DateTime.now());

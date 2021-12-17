@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_study/routes.dart';
-import 'package:flutter_study/ui/detail_page/detail_page.dart';
-import 'package:flutter_study/ui/home/home_page.dart';
-import 'package:flutter_study/ui/home/home_view_model.dart';
+
+import 'ui/daily_report/home/home_page.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      home: const HomePage(),
+      home: const DailyReportHomePage(),
       routes: Routes.all,
     );
   }

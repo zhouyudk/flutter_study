@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/managers/api_manager.dart';
 import 'package:flutter_study/models/news_model.dart';
-import 'package:flutter_study/ui/home/home_view_model.dart';
+import 'package:flutter_study/ui/daily_report/home/home_view_model.dart';
 import 'package:flutter_study/utils/date_util.dart';
 import 'package:flutter_study/utils/log_util.dart';
 import 'package:intl/intl.dart';

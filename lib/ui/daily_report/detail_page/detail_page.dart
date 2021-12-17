@@ -4,15 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/models/news_model.dart';
-import 'package:flutter_study/ui/detail_page/detail_view_model.dart';
 import 'package:flutter_study/utils/log_util.dart';
 import 'package:flutter_study/values/images.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:sprintf/sprintf.dart';
 import 'package:html/dom.dart' as dom;
-import 'package:html/parser.dart' as htmlParser;
 
-import '../state_mixin.dart';
+import '../../state_mixin.dart';
+import 'detail_view_model.dart';
+
 
 class DetailPage extends StatefulWidget {
   final String newsId;

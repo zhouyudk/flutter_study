@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_study/ui/detail_page/detail_page.dart';
+import 'package:flutter_study/ui/daily_report/detail_page/detail_page.dart';
 
 class Routes {
   static final all = {
