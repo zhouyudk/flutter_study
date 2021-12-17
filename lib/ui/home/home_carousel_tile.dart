@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study/models/news_model.dart';
@@ -7,23 +8,30 @@ class HomeCarouselTile extends StatelessWidget {
   final TopNewsModel topNewsModel;
   final Function(String) onTileClicked;
 
-  const HomeCarouselTile({Key? key, required this.topNewsModel, required this.onTileClicked})
+  const HomeCarouselTile(
+      {Key? key, required this.topNewsModel, required this.onTileClicked})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return
-      GestureDetector(
+    return GestureDetector(
         //加上此项 点击空白区域才能响应
         behavior: HitTestBehavior.opaque,
         onTap: _onTap,
         child: Stack(
           children: [
             SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: FadeInImage.assetNetwork(placeholder: ImageResource.placeHolder, image: topNewsModel.image),
-            ),
+                height: double.infinity,
+                width: double.infinity,
+                child: CachedNetworkImage(
+                  imageUrl: topNewsModel.image,
+                  placeholder: (context, url) =>
+                      Image.asset(ImageResource.placeHolder),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                )
+                // FadeInImage.assetNetwork(placeholder: ImageResource.placeHolder,
+                // image: topNewsModel.image),
+                ),
             Positioned(
                 left: 30,
                 bottom: 20,
@@ -50,8 +58,7 @@ class HomeCarouselTile extends StatelessWidget {
                   ],
                 ))
           ],
-        )
-      );
+        ));
   }
 
   _onTap() {
