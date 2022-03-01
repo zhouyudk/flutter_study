@@ -290,6 +290,6 @@ class _HomePage extends State<DailyReportHomePage> {
 
   _onTileClicked(String newsId) {
     LogUtil.v("点击了tile- ${newsId}");
-    Navigator.of(context).pushNamed(Routes.detailPage, arguments: newsId);
+    Navigator.of(context).pushNamed(Routes.dailyReportDetailPage, arguments: newsId);
   }
 }

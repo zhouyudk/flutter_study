@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_study/routes.dart';
 
 import 'ui/daily_report/home/home_page.dart';
-
+import 'utils/log_util.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,25 +17,27 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        colorScheme: const ColorScheme.light()
-      ).copyWith(
+              // This is the theme of your application.
+              //
+              // Try running your application with "flutter run". You'll see the
+              // application has a blue toolbar. Then, without quitting the app, try
+              // changing the primarySwatch below to Colors.green and then invoke
+              // "hot reload" (press "r" in the console where you ran "flutter run",
+              // or simply save your changes to "hot reload" in a Flutter IDE).
+              // Notice that the counter didn't reset back to zero; the application
+              // is not restarted.
+              primarySwatch: Colors.blue,
+              colorScheme: const ColorScheme.light())
+          .copyWith(
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: <TargetPlatform, PageTransitionsBuilder>{
             TargetPlatform.android: ZoomPageTransitionsBuilder(),
           },
         ),
       ),
-      home: const DailyReportHomePage(),
+      home: const MyHomePage(
+        title: 'Demo',
+      ),
       routes: Routes.all,
     );
   }
@@ -107,13 +109,22 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            TextButton(
+                onPressed: navigateToDailyReport,
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blueGrey)),
+                child: const Text(
+                  'DailyReport',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                )),
+            TextButton(
+                onPressed: navigateToWeChat,
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blueGrey)),
+                child: const Text(
+                  'WeChat',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 20),
+                )),
           ],
         ),
       ),
@@ -123,5 +134,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  navigateToDailyReport() {
+    LogUtil.v("navigateToDailyReport");
+    Navigator.of(context).pushNamed(Routes.dailyReport);
+  }
+
+  navigateToWeChat() {
+    LogUtil.v("navigateToWeChat");
+    Navigator.of(context).pushNamed(Routes.weChat);
   }
 }
