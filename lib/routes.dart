@@ -9,7 +9,7 @@ class Routes {
     Routes.dailyReport: (context) => const DailyReportHomePage(),
     Routes.weChat: (context) => WeChatHomePage(),
   };
-  static const dailyReportDetailPage = "detail_page";
-  static const dailyReport = "daily_report";
-  static const weChat = "weChat";
+  static const dailyReportDetailPage = 'detail_page';
+  static const dailyReport = 'daily_report';
+  static const weChat = 'weChat';
 }

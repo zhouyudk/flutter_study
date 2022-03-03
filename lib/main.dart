@@ -109,22 +109,35 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextButton(
-                onPressed: navigateToDailyReport,
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blueGrey)),
-                child: const Text(
-                  'DailyReport',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20),
-                )),
-            TextButton(
-                onPressed: navigateToWeChat,
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blueGrey)),
-                child: const Text(
-                  'WeChat',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20),
-                )),
+            SizedBox(
+              height: 80,
+              width: 200,
+              child: TextButton(
+                  onPressed: navigateToDailyReport,
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.blueGrey)),
+                  child: const Text(
+                    'DailyReport',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 25),
+                  )),
+            ),
+            const SizedBox(height: 10,),
+            SizedBox(
+              height: 80,
+              width: 200,
+              child: TextButton(
+                  onPressed: navigateToWeChat,
+                  style: ButtonStyle(
+                      backgroundColor:
+                      MaterialStateProperty.all(Colors.blueGrey)),
+                  child: const Text(
+                    'WeChat',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 25),
+                  ))
+            )
           ],
         ),
       ),
