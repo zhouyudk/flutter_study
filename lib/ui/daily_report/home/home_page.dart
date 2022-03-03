@@ -1,8 +1,10 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_study/common/resource.dart';
 import 'package:flutter_study/routes.dart';
+import 'package:flutter_study/ui/daily_report/home/home_carousel_tile.dart';
 import 'package:flutter_study/utils/log_util.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -57,9 +59,10 @@ class _HomePage extends State<DailyReportHomePage> {
     });
 
     _scrollController.addListener(() {
-      LogUtil.v("${_scrollController.position.pixels}----${_scrollController.position.maxScrollExtent}");
+      LogUtil.v(
+          "${_scrollController.position.pixels}----${_scrollController.position.maxScrollExtent}");
       if (_scrollController.position.pixels >
-          _scrollController.position.maxScrollExtent-500) {
+          _scrollController.position.maxScrollExtent - 500) {
         LogUtil.v('滑动到了最底部');
         _viewModel.loadMore();
         // _getMore();
@@ -148,10 +151,13 @@ class _HomePage extends State<DailyReportHomePage> {
           //today top
           content.todayNews?.topStories == null
               ? const SizedBox(height: 0)
-              : HomeCarousel(
-                  topNews: content.todayNews!.topStories,
-                  onTileClicked: _onTileClicked,
-                ),
+              : CarouselSlider(
+                  items: content.todayNews!.topStories
+                      .map((story) => HomeCarouselTile(
+                          topNewsModel: story, onTileClicked: _onTileClicked))
+                      .toList(),
+                  options: CarouselOptions(
+                      aspectRatio: 1, viewportFraction: 1, autoPlay: true)),
           //today list
           HomeReportSection(
             dataList: content.todayNews!.stories,
@@ -290,6 +296,7 @@ class _HomePage extends State<DailyReportHomePage> {
 
   _onTileClicked(String newsId) {
     LogUtil.v("点击了tile- ${newsId}");
-    Navigator.of(context).pushNamed(Routes.dailyReportDetailPage, arguments: newsId);
+    Navigator.of(context)
+        .pushNamed(Routes.dailyReportDetailPage, arguments: newsId);
   }
 }

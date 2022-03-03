@@ -56,6 +56,8 @@ dependencies:
   sprintf: ^6.0.0
   #图片本地缓存
   cached_network_image: ^3.2.0
+  #轮播器 https://github.com/serenader2014/flutter_carousel_slider
+  carousel_slider: ^4.0.0
 
 dev_dependencies:
   flutter_test:
