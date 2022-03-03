@@ -151,13 +151,22 @@ class _HomePage extends State<DailyReportHomePage> {
           //today top
           content.todayNews?.topStories == null
               ? const SizedBox(height: 0)
+          //移动到一个独立widget中
               : CarouselSlider(
                   items: content.todayNews!.topStories
                       .map((story) => HomeCarouselTile(
                           topNewsModel: story, onTileClicked: _onTileClicked))
                       .toList(),
                   options: CarouselOptions(
-                      aspectRatio: 1, viewportFraction: 1, autoPlay: true)),
+                      aspectRatio: 1,
+                      viewportFraction: 1,
+                      autoPlay: true,
+                      onPageChanged: (index, reason) {
+                        LogUtil.v('当前页面的index：$index');
+                      },
+                      onScrolled: (offset) {
+                        // LogUtil.v('当前页面的offset：$offset');
+                      })),
           //today list
           HomeReportSection(
             dataList: content.todayNews!.stories,
