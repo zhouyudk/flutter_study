@@ -64,7 +64,8 @@ class _HomeCarousel extends State<HomeCarousel> with WidgetsBindingObserver {
           controller: _pageController,
           onPageChanged: _onPageChanged,// 当页面滑动到一半便会调用
           children: [
-            ..._dataList.map((model) => HomeCarouselTile(topNewsModel: model, onTileClicked: widget.onTileClicked,))
+            ..._dataList.map((model) => HomeCarouselTile(topNewsModel: model, onTileClicked: widget.onTileClicked,)),
+            Theme(data: data, child: child)
           ],
         ));
   }
