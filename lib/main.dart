@@ -45,16 +45,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -63,6 +53,33 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+
+  String _homeNavigationName(int index) {
+    switch (HomeNavigation.values.elementAt(index)) {
+      case HomeNavigation.dailyReport:
+        return 'DailyReport';
+      case HomeNavigation.weChat:
+        return 'WeChat';
+      case HomeNavigation.plank:
+        return 'Plank';
+    }
+  }
+
+  String _homeNavigationRoute(int index) {
+    switch (HomeNavigation.values.elementAt(index)) {
+      case HomeNavigation.dailyReport:
+        return Routes.dailyReport;
+      case HomeNavigation.weChat:
+        return Routes.weChat;
+      case HomeNavigation.plank:
+        return Routes.plank;
+    }
+  }
+
+  _navigateTo(String route) {
+    LogUtil.v('navigate to $route');
+    Navigator.of(context).pushNamed(route);
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -89,58 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              height: 80,
-              width: 200,
-              child: TextButton(
-                  onPressed: navigateToDailyReport,
-                  style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.blueGrey)),
-                  child: const Text(
-                    'DailyReport',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 25),
-                  )),
-            ),
-            const SizedBox(height: 10,),
-            SizedBox(
-              height: 80,
-              width: 200,
-              child: TextButton(
-                  onPressed: navigateToWeChat,
-                  style: ButtonStyle(
-                      backgroundColor:
-                      MaterialStateProperty.all(Colors.blueGrey)),
-                  child: const Text(
-                    'WeChat',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 25),
-                  ))
-            )
-          ],
-        ),
-      ),
+      body: _buildNavigateHome(),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
@@ -149,13 +115,24 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  navigateToDailyReport() {
-    LogUtil.v("navigateToDailyReport");
-    Navigator.of(context).pushNamed(Routes.dailyReport);
-  }
-
-  navigateToWeChat() {
-    LogUtil.v("navigateToWeChat");
-    Navigator.of(context).pushNamed(Routes.weChat);
+  Widget _buildNavigateHome() {
+    return ListView.separated(
+        itemBuilder: (context, index) => SizedBox(
+            height: 80,
+            child: TextButton(
+                onPressed: () => _navigateTo(_homeNavigationRoute(index)),
+                style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(Colors.blue)),
+                child: Text(
+                  _homeNavigationName(index),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 22),
+                ))),
+        separatorBuilder: (context, index) =>
+            const Divider(thickness: 1, height: 1, color: Colors.black),
+        itemCount: HomeNavigation.values.length);
   }
 }
+
+enum HomeNavigation { dailyReport, weChat, plank}

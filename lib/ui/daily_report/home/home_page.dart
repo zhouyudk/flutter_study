@@ -26,10 +26,10 @@ class DailyReportHomePage extends StatefulWidget {
   // always marked "final".
 
   @override
-  State<DailyReportHomePage> createState() => _HomePage();
+  State<DailyReportHomePage> createState() => _DailyReportHomePage();
 }
 
-class _HomePage extends State<DailyReportHomePage> {
+class _DailyReportHomePage extends State<DailyReportHomePage> {
   int _counter = 0;
   final _viewModel = HomeViewModel();
   final _day = DateFormat("dd").format(DateTime.now());
