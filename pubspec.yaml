@@ -63,8 +63,10 @@ dependencies:
   #Data base
   sqflite: 2.0.2+1
   path_provider: ^2.0.0
-
+  #小数据存储
   shared_preferences: ^2.0.15
+  #widget状态管理
+  riverpod: ^1.0.3
 
 dev_dependencies:
   flutter_test:
