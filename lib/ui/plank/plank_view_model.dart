@@ -1,34 +1,17 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:flutter_study/ui/plank/db/database_helper.dart';
+import 'package:flutter_study/ui/plank/db/plank_record.dart';
 
 class PlankViewModel {
 
-  PlankViewModel() {
-    initDB().asStream().listen((db) {
-      _database = db;
-    });
+  final databaseHelper = DatabaseHelper();
+
+  void setPlankRecord(PlankRecord record) {
+    databaseHelper.insertPlankRecord(record);
   }
 
-  Database? _database;
-
-  Future<Database> get database async {
-    _database = _database ?? await initDB();
-    return _database!;
-  }
-
-  Future<Database> initDB() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, 'plank_database.db');
-
-    return await openDatabase(path, version: 1, onOpen: (db) {},
-        onCreate: (Database db, int version) async {
-      await db.execute('''
-            CREATE TABLE tb_plank(start_time_stamp INTEGER PRIMARY KEY, duration INTEGER)
-            ''');
-    });
+  Future<List<PlankRecord>> getPlankRecords() {
+    return databaseHelper.plankRecords();
   }
 }
