@@ -25,15 +25,13 @@ class _PlankHomeState extends State<PlankHome> {
   var _milliseconds = 0;
   var _progress = 0.0;
   var _isTiming = false;
-
+  var highestRecord = 0;
 
   String _formatTime(int time) {
     final milliseconds = time % 1000;
-    final second = (time/1000).truncate() % 60;
-    final min = (time/1000 / 60).truncate();
-    final secStr = second >= 10 ? '$second' : '0$second';
-    final misStr = min >= 10 ? '$min' : '0$min';
-    return '$misStr:$secStr.$milliseconds';
+    final second = (time / 1000).truncate() % 60;
+    final min = (time / 1000 / 60).truncate();
+    return '${min.toString().padLeft(2, '0')}:${second.toString().padLeft(2, '0')}.${milliseconds.toString().padLeft(3, '0')}';
   }
 
   void _startTimer() {
@@ -44,19 +42,18 @@ class _PlankHomeState extends State<PlankHome> {
       }
       setState(() {
         _milliseconds += 1;
-        if ((_milliseconds/1000).truncate() % 60 == 0 && (_milliseconds/1000).truncate() >= 60) {
+        if ((_milliseconds / 1000).truncate() % 60 == 0 &&
+            (_milliseconds / 1000).truncate() >= 60) {
           _progress = 0;
           _backgroundColor = _foregroundColor;
-          _foregroundColor =
-              _colorList.elementAt((_milliseconds / 60*1000).truncate() % _colorList.length);
+          _foregroundColor = _colorList.elementAt(
+              (_milliseconds / 60 * 1000).truncate() % _colorList.length);
         } else {
-          _progress = _milliseconds % (60*1000) / (60*1000);
+          _progress = _milliseconds % (60 * 1000) / (60 * 1000);
         }
       });
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +61,7 @@ class _PlankHomeState extends State<PlankHome> {
       appBar: AppBar(
           title: const Text("Plank"),
           systemOverlayStyle:
-          const SystemUiOverlayStyle(statusBarColor: Colors.transparent)),
+              const SystemUiOverlayStyle(statusBarColor: Colors.transparent)),
       body: _buildScaffoldBody(),
     );
   }
@@ -75,14 +72,8 @@ class _PlankHomeState extends State<PlankHome> {
         alignment: Alignment.center,
         children: [
           SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .width,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
+            height: MediaQuery.of(context).size.width,
+            width: MediaQuery.of(context).size.width,
             child: Padding(
               padding: const EdgeInsets.all(30.0),
               child: CircularProgressIndicator(
@@ -93,10 +84,21 @@ class _PlankHomeState extends State<PlankHome> {
               ),
             ),
           ),
+          SizedBox(
+              height: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 200),
+                child: Center(
+                    child: Text(
+                  '最高记录: $highestRecord',
+                  style: const TextStyle(fontSize: 20, color: Colors.amber),
+                )),
+              )),
           GestureDetector(
             onTap: () {
               _isTiming = !_isTiming;
-              if(_isTiming) {
+              if (_isTiming) {
                 _startTimer();
               }
             },
