@@ -30,7 +30,7 @@ class PlankPreferences {
   ///如果没有设置过目标则默认返回120s
   Future<int> plankGoal() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt(_plankGoal) ?? 120;
+    return prefs.getInt(_plankGoal) ?? 120*1000;
   }
 
 }
