@@ -21,6 +21,22 @@ class DatabaseHelper {
         });
   }
 
+  //判断表是否存在
+  isTableExits(String tableName) async {
+    //内建表sqlite_master
+    var sql ="SELECT * FROM sqlite_master WHERE TYPE = 'table' AND NAME = '$tableName'";
+    var res = await database.rawQuery(sql);
+    var returnRes = res!=null && res.length > 0;
+    return returnRes;
+  }
+
+  //创建表
+  createTable(String tableName) async {
+    var sql = 'CREATE TABLE $tableName (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, type TEXT)';
+    await database.execute(sql);
+  }
+  
+  //TODO: 每次启动都会重新建表， 需要查看sqllite文档
   Database? _database;
   Future<Database?> get database async {
     if (_database != null) {

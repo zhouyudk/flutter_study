@@ -63,7 +63,7 @@ class PlankViewModel extends StateNotifier<PlankContent> {
       if (state.time > state.highestRecord) {
         setHighestRecord(state.time);
       }
-      _stopTiming();
+      stopTiming();
     }
   }
 
@@ -74,9 +74,10 @@ class PlankViewModel extends StateNotifier<PlankContent> {
     });
   }
 
-  void _stopTiming() {
+  void stopTiming() {
     _timer?.cancel();
     _timer = null;
+    _resetPlankContent();
   }
 
   void _updateTiming() {
@@ -95,10 +96,16 @@ class PlankViewModel extends StateNotifier<PlankContent> {
     }
   }
 
+  void _resetPlankContent() {
+      state = PlankContent.defaultInstance();
+      highestRecord();
+      plankRecords();
+  }
+
   @override
   void dispose() {
     super.dispose();
-    _stopTiming();
+    stopTiming();
   }
 }
 

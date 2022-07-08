@@ -16,12 +16,18 @@ class PlankHome extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-          title: const Text("Plank"),
-          systemOverlayStyle:
-              const SystemUiOverlayStyle(statusBarColor: Colors.transparent)),
-      body: _buildScaffoldBody(context, ref),
+    return WillPopScope(
+      onWillPop: (){
+        ref.read(plankDataProvider.notifier).stopTiming();
+        return Future.value(true);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+            title: const Text("Plank"),
+            systemOverlayStyle:
+                const SystemUiOverlayStyle(statusBarColor: Colors.transparent)),
+        body: _buildScaffoldBody(context, ref),
+      ),
     );
   }
 
