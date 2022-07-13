@@ -60,4 +60,15 @@ class DatabaseHelper {
     final List<Map<String, dynamic>> maps = await db?.query(_tbPlank) ?? [];
     return List.generate(maps.length, (i) => PlankRecord.fromJson(maps[i]));
   }
+
+  // Future<int> delete(int id) async {
+  //   return await db.delete(tableTodo, where: '$colu mnId = ?', whereArgs: [id]);
+  // }
+  //
+  // Future<int> update(Todo todo) async {
+  //   return await db.update(tableTodo, todo.toMap(),
+  //       where: '$columnId = ?', whereArgs: [todo.id]);
+  // }
+  //
+  // Future close() async => db.close();
 }
