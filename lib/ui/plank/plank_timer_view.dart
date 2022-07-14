@@ -16,7 +16,9 @@ class PlankTimerView extends ConsumerWidget {
   bool _isTiming = false;
 
   void _startTiming(WidgetRef ref) {
-    ref.read(plankDataProvider.notifier).onTimingStart(DateTime.now().millisecondsSinceEpoch);
+    ref
+        .read(plankDataProvider.notifier)
+        .onTimingStart(DateTime.now().millisecondsSinceEpoch);
     Timer.periodic(const Duration(milliseconds: 1), (timer) {
       _timer = timer;
       ref.read(plankDataProvider.notifier).updateDuration();
@@ -29,11 +31,16 @@ class PlankTimerView extends ConsumerWidget {
     ref.read(plankDataProvider.notifier).onTimingStop();
   }
 
-  void _onTimeClicked(WidgetRef ref) {
+  void _onTimeClicked(BuildContext context, WidgetRef ref) {
     _isTiming = !_isTiming;
     if (_isTiming) {
       _startTiming(ref);
     } else {
+      final duration = ref.watch(plankDataProvider).duration;
+      showDialog(
+          context: context,
+          builder: (ctx) =>
+              _buildAlertDialog(context , duration));
       _stopTiming(ref);
     }
   }
@@ -77,7 +84,7 @@ class PlankTimerView extends ConsumerWidget {
                 )),
             GestureDetector(
               onTap: () {
-                _onTimeClicked(ref);
+                _onTimeClicked(context, ref);
               },
               child: Text(
                 plankContent.duration.toMilliSecondString(),
@@ -89,4 +96,12 @@ class PlankTimerView extends ConsumerWidget {
       ),
     );
   }
+
+  Widget _buildAlertDialog(BuildContext context, int duration) => AlertDialog(
+      title: const Text('恭喜!!!'),
+  content: Text('本次平板支撑时间为: ${duration.toSecondString()}，向右滑动查看时间统计。'),
+    actions: [ElevatedButton(onPressed: () {
+      Navigator.pop(context);
+    }, child: const Text('OK'))],
+  );
 }
