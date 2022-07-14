@@ -9,8 +9,8 @@ class Routes {
   static final all = {
     Routes.dailyReportDetailPage: (context) => DetailPage(newsId: ModalRoute.of(context)?.settings.arguments as String),
     Routes.dailyReport: (context) => const DailyReportHomePage(),
-    Routes.weChat: (context) => const WeChatHomePage(),
-    Routes.plank: (context) => PlankHome(),
+    Routes.weChat: (context) => WeChatHomePage(),
+    Routes.plank: (context) => const PlankHome(),
   };
   static const dailyReportDetailPage = 'detail_page';
   static const dailyReport = 'daily_report';
