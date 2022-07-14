@@ -20,7 +20,9 @@ class PlankRecordChart extends ConsumerWidget {
             .size
             .width,
         //判断数据是否为空，为空则不限时Chart
-        child: BarChart(
+        child: plankContent.chartDataList.isEmpty
+            ? const SizedBox()
+            : BarChart(
           BarChartData(
             barTouchData: _initBarTouchData(plankContent.chartDataList),
             titlesData: _initTitlesData(plankContent.chartDataList),
@@ -28,7 +30,14 @@ class PlankRecordChart extends ConsumerWidget {
             barGroups: _initBarGroups(plankContent.chartDataList),
             gridData: FlGridData(show: false),
             alignment: BarChartAlignment.spaceAround,
-            maxY: 20,
+            maxY: plankContent.chartDataList
+                .reduce(
+                    (current, next) =>
+                current.duration > next.duration
+                    ? current
+                    : next)
+                .duration
+                .toDouble() * 1.5,
           ),
         ),
       ),
@@ -63,14 +72,7 @@ class PlankRecordChart extends ConsumerWidget {
         bottomTitles: AxisTitles(
           sideTitles: SideTitles(
             showTitles: true,
-            reservedSize: chartDataList
-                .reduce(
-                    (current, next) =>
-                current.duration > next.duration
-                    ? current
-                    : next)
-                .duration
-                .toDouble() * 1.5,
+            reservedSize: 20,
             getTitlesWidget: (value, meta) =>
                 SideTitleWidget(
                   axisSide: meta.axisSide,

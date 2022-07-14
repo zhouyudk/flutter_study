@@ -43,8 +43,14 @@ extension FormatTime on int {
 
   String toDateDayString() {
     final dateTime = DateTime.fromMillisecondsSinceEpoch(this);
-    DateFormat dateFormat = DateFormat("MM-dd");
-    return dateFormat.format(dateTime);
+    if (dateTime.year == DateTime.now().year) {
+      DateFormat dateFormat = DateFormat('MM-dd');
+      return dateFormat.format(dateTime);
+    } else {
+      DateFormat dateFormat = DateFormat('yy-MM-dd');
+      return dateFormat.format(dateTime);
+    }
+
   }
 }
 

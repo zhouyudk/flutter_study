@@ -16,6 +16,7 @@ class PlankTimerView extends ConsumerWidget {
   bool _isTiming = false;
 
   void _startTiming(WidgetRef ref) {
+    ref.read(plankDataProvider.notifier).onTimingStart(DateTime.now().millisecondsSinceEpoch);
     Timer.periodic(const Duration(milliseconds: 1), (timer) {
       _timer = timer;
       ref.read(plankDataProvider.notifier).updateDuration();

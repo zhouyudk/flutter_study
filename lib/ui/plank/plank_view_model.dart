@@ -44,7 +44,7 @@ class PlankViewModel extends StateNotifier<PlankContent> {
         if (lastRecordDate.isSameDayWith(records[i].startTime)) {
           lastDayDuration += records[i].duration;
         } else {
-          if (records.length > 20) break;
+          if (records.length > 10) break;
           recordsReduce.insert(
               0,
               PlankRecord(
@@ -94,7 +94,9 @@ class PlankViewModel extends StateNotifier<PlankContent> {
           duration: duration, progress: duration % (60 * 1000) / (60 * 1000));
     }
   }
-
+ void onTimingStart(int startTime) {
+    state = state.copyWith(startTime: startTime);
+ }
   void onTimingStop() {
     setHighestRecord(max(state.duration, state.highestRecord));
     _databaseHelper.insertPlankRecord( PlankRecord(startTime: state.startTime, duration: state.duration));
