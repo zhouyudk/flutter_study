@@ -10,7 +10,19 @@ import 'package:flutter_study/ui/wechat/wechat_home_view_model.dart';
 class WeChatHomePage extends ConsumerWidget {
   WeChatHomePage({Key? key}) : super(key: key);
 
-  final tabBarTitles = [('Chat', 'assets/images/2.0x/tabbar_mainframe.png',), ('Contact'), ('Discover'), ('Me')];
+  final bottomTabs = const [
+    WeChatHomeTabBarData(title: 'Chat',
+      unselectedIcon: 'assets/images/2.0x/tabbar_mainframe.png',
+      selectedIcon: 'assets/images/2.0x/tabbar_mainframeHL.png'),
+    WeChatHomeTabBarData(title: 'Contact',
+        unselectedIcon: 'assets/images/2.0x/tabbar_contacts.png',
+        selectedIcon: 'assets/images/2.0x/tabbar_contactsHL.png'),
+    WeChatHomeTabBarData(title: 'Discover',
+        unselectedIcon: 'assets/images/2.0x/tabbar_discover.png',
+        selectedIcon: 'assets/images/2.0x/tabbar_discoverHL.png'),
+    WeChatHomeTabBarData(title: 'Me',
+        unselectedIcon: 'assets/images/2.0x/tabbar_me.png',
+        selectedIcon: 'assets/images/2.0x/tabbar_meHL.png')];
 
   @override
   Widget build(BuildContext context, WidgetRef ref) => Scaffold(
@@ -30,11 +42,17 @@ class WeChatHomePage extends ConsumerWidget {
         onTap: (index) {
           ref.read(wechatHomeDataProvider.notifier).updateIndex(index);
         },
-        items: tabBarTitles
-            .map((e) => BottomNavigationBarItem(
-                icon: const Icon(Icons.wechat), label: e))
+        items: bottomTabs
+            .map((tab) => BottomNavigationBarItem(
+                icon:  Image.asset(tab.unselectedIcon, height: 20,), label: tab.title, activeIcon: Image.asset(tab.selectedIcon, height: 20,)))
             .toList());
   }
 }
 
-class WeChatHomeTabbar
+class WeChatHomeTabBarData {
+   final String title;
+   final String unselectedIcon;
+   final String selectedIcon;
+
+   const WeChatHomeTabBarData({required this.title, required this.unselectedIcon, required this.selectedIcon});
+}
