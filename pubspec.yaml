@@ -67,6 +67,8 @@ dependencies:
   shared_preferences: ^2.0.15
   #widget状态管理
   flutter_riverpod: ^1.0.3
+  #包含状态管理，路由管理，本地化，主题等多种项目必须的组件
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:
